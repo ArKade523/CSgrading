@@ -1,5 +1,5 @@
 
-# Computer Science Course Assistant Application
+# Computer Science Course Assistant Grading Application
 
 ## Introduction
 This document outlines the requirements and development milestones for a desktop platform to assist Computer Science course TAs. The application will facilitate the downloading, uncompressing, and running of student assignments, starting with Django projects.
