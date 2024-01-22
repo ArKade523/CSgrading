@@ -1,0 +1,27 @@
+{
+  "name": "csgrading",
+  "version": "1.0.0",
+  "description": "A application to assist in grading CS courses",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArKade523/CSgrading.git"
+  },
+  "keywords": [
+    "Computer",
+    "Science",
+    "grading"
+  ],
+  "author": "Kade Angell",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArKade523/CSgrading/issues"
+  },
+  "homepage": "https://github.com/ArKade523/CSgrading#readme",
+  "devDependencies": {
+    "electron": "^28.1.4"
+  }
+}
