@@ -33,14 +33,14 @@ This document outlines the requirements and development milestones for a desktop
 
 ### Milestone 1: Project Setup
 
--   [ ] Initialize Electron.js application
--   [ ] Set up basic project structure (folders, basic files)
+-   [X] Initialize Electron.js application
+-   [X] Set up basic project structure (folders, basic files)
 -   [x] Version control setup with Git
 
 ### Milestone 2: User Interface Development
 
 -   [ ] Design and implement the main UI layout
--   [ ] Integrate Monaco Editor
+-   [X] Integrate Monaco Editor
 -   [ ] Implement file management system (download, unzip, etc.)
 
 ### Milestone 3: Docker Integration
