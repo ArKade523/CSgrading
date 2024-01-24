@@ -1,8 +1,8 @@
-function HomeView() {
+function HomeView(): JSX.Element {
     return (
-        <div>
+        <section>
             <h1>Home</h1>
-        </div>
+        </section>
     )
 }
 

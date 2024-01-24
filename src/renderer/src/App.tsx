@@ -1,15 +1,17 @@
-// import icons from './assets/icons.svg'
-import AboutView from './views/AboutView'
-import EditorView from './views/EditorView'
-import SettingsView from './views/SettingsView'
-import HomeView from './views/HomeView'
-import MonacoEditor from './components/MonacoEditor'
-import { useState } from 'react'
+import AboutView from '@renderer/views/AboutView'
+import EditorView from '@renderer/views/EditorView'
+import SettingsView from '@renderer/views/SettingsView'
+import HomeView from '@renderer/views/HomeView'
 import { Routes, Route } from 'react-router-dom'
+import ViewSelector from '@renderer/components/ViewSelector'
+import usePreferredTheme from '@renderer/hooks/usePreferredTheme'
 
 function App(): JSX.Element {
+    usePreferredTheme()
+
     return (
-        <div>
+        <div id="app">
+            <ViewSelector />
             <Routes>
                 <Route path="/" element={<HomeView />} />
                 <Route path="/editor" element={<EditorView />} />

@@ -1,6 +1,6 @@
 import Editor from '@monaco-editor/react'
 
-function MonacoEditor() {
+function MonacoEditor(): JSX.Element {
     return (
         <div>
             <Editor

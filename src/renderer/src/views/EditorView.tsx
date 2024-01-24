@@ -1,11 +1,11 @@
 import MonacoEditor from '@renderer/components/MonacoEditor'
 
-function EditorView() {
+function EditorView(): JSX.Element {
     return (
-        <div>
+        <section>
             <h1>Editor</h1>
             <MonacoEditor />
-        </div>
+        </section>
     )
 }
 

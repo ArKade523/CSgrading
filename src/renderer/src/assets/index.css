@@ -1,3 +1,21 @@
+:root {
+    color-scheme: light dark;
+    --accent: #f2a365;
+}
+:root[data-theme='dark'] {
+    --background: #2f3241;
+    --background-secondary: #3c3f52;
+}
+:root[data-theme='light'] {
+    --background: #f2f2f2;
+    --background-secondary: #ffffff;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -13,7 +31,16 @@ body {
         'Open Sans',
         sans-serif;
     color: #86a5b1;
-    background-color: #2f3241;
+    background-color: var(--background);
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+section {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
 }
 
 code {
