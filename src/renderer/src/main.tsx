@@ -4,6 +4,7 @@ import './assets/index.css'
 import App from './App'
 import { loader } from '@monaco-editor/react'
 
+// Load Monaco Editor locally from assets/monaco-editor/min/vs
 loader.config({
     paths: {
         vs: '/src/assets/monaco-editor/min/vs'
