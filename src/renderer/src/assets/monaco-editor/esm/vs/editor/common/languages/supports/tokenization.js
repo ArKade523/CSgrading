@@ -170,10 +170,10 @@ export class TokenTheme {
             const rule = this._match(token)
             const standardToken = toStandardTokenType(token)
             result =
-                (rule.metadata | (standardToken << 8) /* MetadataConsts.TOKEN_TYPE_OFFSET */) >>> 0
+                (rule.metadata | (standardToken << 8)) /* MetadataConsts.TOKEN_TYPE_OFFSET */ >>> 0
             this._cache.set(token, result)
         }
-        return (result | (languageId << 0) /* MetadataConsts.LANGUAGEID_OFFSET */) >>> 0
+        return (result | (languageId << 0)) /* MetadataConsts.LANGUAGEID_OFFSET */ >>> 0
     }
 }
 const STANDARD_TOKEN_TYPE_REGEXP = /\b(comment|string|regex|regexp)\b/
@@ -212,7 +212,7 @@ export class ThemeTrieElementRule {
         this.metadata =
             ((this._fontStyle << 11) /* MetadataConsts.FONT_STYLE_OFFSET */ |
                 (this._foreground << 15) /* MetadataConsts.FOREGROUND_OFFSET */ |
-                (this._background << 24) /* MetadataConsts.BACKGROUND_OFFSET */) >>>
+                (this._background << 24)) /* MetadataConsts.BACKGROUND_OFFSET */ >>>
             0
     }
     clone() {
@@ -231,7 +231,7 @@ export class ThemeTrieElementRule {
         this.metadata =
             ((this._fontStyle << 11) /* MetadataConsts.FONT_STYLE_OFFSET */ |
                 (this._foreground << 15) /* MetadataConsts.FOREGROUND_OFFSET */ |
-                (this._background << 24) /* MetadataConsts.BACKGROUND_OFFSET */) >>>
+                (this._background << 24)) /* MetadataConsts.BACKGROUND_OFFSET */ >>>
             0
     }
 }

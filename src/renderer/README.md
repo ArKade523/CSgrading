@@ -35,5 +35,5 @@ stateDiagram-v2
     OpenCodeViewer --> RunSubmission
     RunSubmission --> OpenCodeViewer
     RunSubmission --> ChooseSubmission
-    
+
 ```

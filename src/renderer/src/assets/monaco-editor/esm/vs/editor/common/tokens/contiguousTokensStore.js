@@ -258,7 +258,7 @@ function getDefaultMetadata(topLevelLanguageId) {
             (1 /* ColorId.DefaultForeground */ << 15) /* MetadataConsts.FOREGROUND_OFFSET */ |
             (2 /* ColorId.DefaultBackground */ << 24) /* MetadataConsts.BACKGROUND_OFFSET */ |
             // If there is no grammar, we just take a guess and try to match brackets.
-            1024 /* MetadataConsts.BALANCED_BRACKETS_MASK */) >>>
+            1024) /* MetadataConsts.BALANCED_BRACKETS_MASK */ >>>
         0
     )
 }

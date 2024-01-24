@@ -22,7 +22,7 @@ export function nullTokenizeEncoded(languageId, state) {
             (0 /* StandardTokenType.Other */ << 8) /* MetadataConsts.TOKEN_TYPE_OFFSET */ |
             (0 /* FontStyle.None */ << 11) /* MetadataConsts.FONT_STYLE_OFFSET */ |
             (1 /* ColorId.DefaultForeground */ << 15) /* MetadataConsts.FOREGROUND_OFFSET */ |
-            (2 /* ColorId.DefaultBackground */ << 24) /* MetadataConsts.BACKGROUND_OFFSET */) >>>
+            (2 /* ColorId.DefaultBackground */ << 24)) /* MetadataConsts.BACKGROUND_OFFSET */ >>>
         0
     return new EncodedTokenizationResult(tokens, state === null ? NullState : state)
 }

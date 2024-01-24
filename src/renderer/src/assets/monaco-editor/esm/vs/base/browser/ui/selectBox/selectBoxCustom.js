@@ -237,8 +237,8 @@ export class SelectBoxList extends Disposable {
     }
     setOptionsList() {
         var _a
-        // Mirror options in drop-down
-        // Populate select list for non-native select mode
+            // Mirror options in drop-down
+            // Populate select list for non-native select mode
         ;(_a = this.selectList) === null || _a === void 0
             ? void 0
             : _a.splice(0, this.selectList.length, this.options)

@@ -97,16 +97,16 @@ export class ScanCodeChord {
         return (
             (this.ctrlKey &&
                 (this.scanCode === 157 /* ScanCode.ControlLeft */ ||
-                    this.scanCode === 161) /* ScanCode.ControlRight */) ||
+                    this.scanCode === 161)) /* ScanCode.ControlRight */ ||
             (this.shiftKey &&
                 (this.scanCode === 158 /* ScanCode.ShiftLeft */ ||
-                    this.scanCode === 162) /* ScanCode.ShiftRight */) ||
+                    this.scanCode === 162)) /* ScanCode.ShiftRight */ ||
             (this.altKey &&
                 (this.scanCode === 159 /* ScanCode.AltLeft */ ||
-                    this.scanCode === 163) /* ScanCode.AltRight */) ||
+                    this.scanCode === 163)) /* ScanCode.AltRight */ ||
             (this.metaKey &&
                 (this.scanCode === 160 /* ScanCode.MetaLeft */ ||
-                    this.scanCode === 164) /* ScanCode.MetaRight */)
+                    this.scanCode === 164)) /* ScanCode.MetaRight */
         )
     }
 }

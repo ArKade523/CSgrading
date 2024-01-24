@@ -1253,7 +1253,7 @@ export class List {
                         (e) =>
                             (didJustPressContextMenuKey =
                                 e.keyCode === 58 /* KeyCode.ContextMenu */ ||
-                                (e.shiftKey && e.keyCode === 68) /* KeyCode.F10 */)
+                                (e.shiftKey && e.keyCode === 68)) /* KeyCode.F10 */
                     )
                     .map((e) => EventHelper.stop(e, true))
                     .filter(() => false)

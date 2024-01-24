@@ -57,7 +57,7 @@ let InPlaceReplaceController = (InPlaceReplaceController_1 = class InPlaceReplac
     dispose() {}
     run(source, up) {
         var _a
-        // cancel any pending request
+            // cancel any pending request
         ;(_a = this.currentRequest) === null || _a === void 0 ? void 0 : _a.cancel()
         const editorSelection = this.editor.getSelection()
         const model = this.editor.getModel()

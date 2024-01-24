@@ -507,7 +507,7 @@ class SparseMultilineTokensStorage {
             ((firstCharCode >= 48 /* CharCode.Digit0 */ &&
                 firstCharCode <= 57) /* CharCode.Digit9 */ ||
                 (firstCharCode >= 65 /* CharCode.A */ && firstCharCode <= 90) /* CharCode.Z */ ||
-                (firstCharCode >= 97 /* CharCode.a */ && firstCharCode <= 122) /* CharCode.z */)
+                (firstCharCode >= 97 /* CharCode.a */ && firstCharCode <= 122)) /* CharCode.z */
         const tokens = this._tokens
         const tokenCount = this._tokenCount
         for (let i = 0; i < tokenCount; i++) {

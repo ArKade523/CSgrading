@@ -1,46 +1,21 @@
 // import icons from './assets/icons.svg'
+import AboutView from './views/AboutView'
+import EditorView from './views/EditorView'
+import SettingsView from './views/SettingsView'
+import HomeView from './views/HomeView'
 import MonacoEditor from './components/MonacoEditor'
 import { useState } from 'react'
-
-enum States {
-    HOME,
-    EDITOR,
-    SETTINGS,
-    ABOUT,
-}
+import { Routes, Route } from 'react-router-dom'
 
 function App(): JSX.Element {
-    const [state, setState] = useState(States.HOME);
-
-
     return (
-        <div className="App">
-            <h1>CS Grading</h1>
-            {state === States.HOME && (
-                <div>
-                    <button onClick={() => setState(States.EDITOR)}>Editor</button>
-                    <button onClick={() => setState(States.SETTINGS)}>Settings</button>
-                    <button onClick={() => setState(States.ABOUT)}>About</button>
-                </div>
-            )}
-            {state === States.EDITOR && (
-                <div>
-                    <button onClick={() => setState(States.HOME)}>Home</button>
-                    <MonacoEditor />
-                </div>
-            )}
-            {state === States.SETTINGS && (
-                <div>
-                    <button onClick={() => setState(States.HOME)}>Home</button>
-                    <p>Settings</p>
-                </div>
-            )}
-            {state === States.ABOUT && (
-                <div>
-                    <button onClick={() => setState(States.HOME)}>Home</button>
-                    <p>About</p>
-                </div>
-            )}
+        <div>
+            <Routes>
+                <Route path="/" element={<HomeView />} />
+                <Route path="/editor" element={<EditorView />} />
+                <Route path="/settings" element={<SettingsView />} />
+                <Route path="/about" element={<AboutView />} />
+            </Routes>
         </div>
     )
 }

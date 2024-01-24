@@ -693,8 +693,7 @@ let ContentHoverWidget = (ContentHoverWidget_1 = class ContentHoverWidget extend
             return
         }
         const overflowing = this._isHoverTextOverflowing()
-        const initialWidth =
-            typeof this._contentWidth === 'undefined' ? 0 : this._contentWidth - 2 // - 2 for the borders
+        const initialWidth = typeof this._contentWidth === 'undefined' ? 0 : this._contentWidth - 2 // - 2 for the borders
         if (overflowing || this._hover.containerDomNode.clientWidth < initialWidth) {
             const bodyBoxWidth = dom.getClientArea(
                 this._hover.containerDomNode.ownerDocument.body

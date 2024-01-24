@@ -539,7 +539,7 @@ function canBreak(prevCharCode, prevCharCodeClass, charCode, charCodeClass, isKe
                 charCodeClass !== 2) /* CharacterClass.BREAK_AFTER */ ||
             (!isKeepAll &&
                 charCodeClass === 3 /* CharacterClass.BREAK_IDEOGRAPHIC */ &&
-                prevCharCodeClass !== 1) /* CharacterClass.BREAK_BEFORE */)
+                prevCharCodeClass !== 1)) /* CharacterClass.BREAK_BEFORE */
     )
 }
 function computeWrappedTextIndentLength(

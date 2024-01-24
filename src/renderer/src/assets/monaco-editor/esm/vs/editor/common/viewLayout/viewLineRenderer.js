@@ -150,7 +150,7 @@ export class CharacterMapping {
     setColumnInfo(column, partIndex, charIndex, horizontalOffset) {
         const partData =
             ((partIndex << 16) /* CharacterMappingConstants.PART_INDEX_OFFSET */ |
-                (charIndex << 0) /* CharacterMappingConstants.CHAR_INDEX_OFFSET */) >>>
+                (charIndex << 0)) /* CharacterMappingConstants.CHAR_INDEX_OFFSET */ >>>
             0
         this._data[column - 1] = partData
         this._horizontalOffset[column - 1] = horizontalOffset
@@ -194,7 +194,7 @@ export class CharacterMapping {
         }
         const searchEntry =
             ((partIndex << 16) /* CharacterMappingConstants.PART_INDEX_OFFSET */ |
-                (charIndex << 0) /* CharacterMappingConstants.CHAR_INDEX_OFFSET */) >>>
+                (charIndex << 0)) /* CharacterMappingConstants.CHAR_INDEX_OFFSET */ >>>
             0
         let min = 0
         let max = this.length - 1

@@ -124,8 +124,10 @@ export function getInheritIndentForLine(
         )
         if (
             !(
-                previousLineIndentMetadata &
-                (1 /* IndentConsts.INCREASE_MASK */ | 2) /* IndentConsts.DECREASE_MASK */
+                (
+                    previousLineIndentMetadata &
+                    (1 /* IndentConsts.INCREASE_MASK */ | 2)
+                ) /* IndentConsts.DECREASE_MASK */
             ) &&
             previousLineIndentMetadata & 4 /* IndentConsts.INDENT_NEXTLINE_MASK */
         ) {

@@ -1,7 +1,6 @@
 import Editor from '@monaco-editor/react'
 
 function MonacoEditor() {
-
     return (
         <div>
             <Editor

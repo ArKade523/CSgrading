@@ -257,7 +257,7 @@ let InlineCompletionsController =
                     if (commands.has(e.commandId) && editor.hasTextFocus() && this._enabled.get()) {
                         transaction((tx) => {
                             var _a
-                            /** @description onDidExecuteCommand */
+                                /** @description onDidExecuteCommand */
                             ;(_a = this.model.get()) === null || _a === void 0
                                 ? void 0
                                 : _a.trigger(tx)
@@ -280,7 +280,7 @@ let InlineCompletionsController =
                     }
                     transaction((tx) => {
                         var _a
-                        /** @description InlineCompletionsController.onDidBlurEditorWidget */
+                            /** @description InlineCompletionsController.onDidBlurEditorWidget */
                         ;(_a = this.model.get()) === null || _a === void 0 ? void 0 : _a.stop(tx)
                     })
                 })
