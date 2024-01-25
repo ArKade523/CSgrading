@@ -15,10 +15,11 @@ function App(): JSX.Element {
             <ViewSelector />
             <Routes>
                 <Route path="/" element={<HomeView />} />
+                <Route path="/home" element={<HomeView />} />
                 <Route path="/editor" element={<EditorView />} />
                 <Route path="/settings" element={<SettingsView />} />
                 <Route path="/about" element={<AboutView />} />
-                <Route path='*' element={<NoMatchView />} />
+                <Route path="*" element={<NoMatchView />} />
             </Routes>
         </div>
     )

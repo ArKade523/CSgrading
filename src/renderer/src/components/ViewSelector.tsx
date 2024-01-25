@@ -6,9 +6,15 @@ function ViewSelector(): JSX.Element {
     const [active, setActive] = useState<string>('home')
 
     useEffect(() => {
-        const currentPath = location.pathname
-        // Paths directly correspond to the view IDs, except home (set as default)
-        const activeView = currentPath.substring(1) || 'home'
+        const views = [
+            { id: 'home', link: '/' },
+            { id: 'editor', link: '/editor' },
+            { id: 'settings', link: '/settings' },
+            { id: 'about', link: '/about' }
+        ]
+
+        // Find the active view based on the current path
+        const activeView = views.find((view) => location.pathname.endsWith(view.link))?.id || 'home'
         setActive(activeView)
     }, [location])
 

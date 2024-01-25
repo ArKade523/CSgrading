@@ -37,10 +37,15 @@ body {
     margin: 0;
 }
 
-section {
-    height: 100%;
-    width: 100%;
-    padding: 10px;
+button {
+    background-color: var(--background-secondary);
+    border: none;
+    border-radius: 3px;
+    padding: 0.5rem 1rem;
+}
+button:hover {
+    background-color: var(--accent);
+    cursor: pointer;
 }
 
 code {
@@ -57,4 +62,27 @@ code {
         Liberation Mono,
         monospace;
     font-size: 85%;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+form > div, form > label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+form input[type='radio'] {
+    margin-right: 0.5rem;
+}
+form button {
+    background-color: var(--background);
+}
+
+section {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
 }
