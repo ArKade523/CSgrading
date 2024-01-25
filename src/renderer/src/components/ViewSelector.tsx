@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 
 function ViewSelector(): JSX.Element {
     const location = useLocation()
@@ -28,9 +28,9 @@ function ViewSelector(): JSX.Element {
                     className={active === view.id ? 'active' : ''}
                     title={view.title}
                 >
-                    <a href={view.link} onClick={() => setActive(view.id)}>
+                    <Link to={view.link} onClick={() => setActive(view.id)}>
                         <i className={`fa ${view.icon}`}></i>
-                    </a>
+                    </Link>
                 </span>
             ))}
         </div>
