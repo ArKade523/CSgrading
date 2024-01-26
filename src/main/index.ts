@@ -1,7 +1,10 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import yaml from 'js-yaml'
+import fs from 'fs'
+import path from 'path'
 
 function createWindow(): void {
     // Create the browser window.
@@ -24,6 +27,35 @@ function createWindow(): void {
     mainWindow.webContents.setWindowOpenHandler((details) => {
         shell.openExternal(details.url)
         return { action: 'deny' }
+    })
+
+    // Handle the save-file request from the renderer process
+    ipcMain.on('save-assignment', async (event, assignmentData) => {
+        const { filePath, canceled } = await dialog.showSaveDialog({
+            buttonLabel: 'Create Folder',
+            properties: ['createDirectory', 'showOverwriteConfirmation'],
+            defaultPath: path.join(app.getPath('desktop'), assignmentData.name) // Default to desktop
+        })
+
+        if (!canceled && filePath) {
+            const folderPath = path.dirname(filePath)
+            const yamlFilePath = path.join(folderPath, `${assignmentData.name}.yaml`)
+
+            if (!fs.existsSync(folderPath)) {
+                fs.mkdirSync(folderPath)
+            }
+
+            const yamlData = yaml.dump(assignmentData)
+            fs.writeFile(yamlFilePath, yamlData, 'utf8', (err) => {
+                if (err) {
+                    event.reply('save-status', 'error')
+                } else {
+                    event.reply('save-status', 'success')
+                }
+            })
+        } else {
+            event.reply('save-status', 'cancelled')
+        }
     })
 
     // HMR for renderer base on electron-vite cli.

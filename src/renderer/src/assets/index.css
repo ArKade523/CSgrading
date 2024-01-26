@@ -69,7 +69,8 @@ form {
     flex-direction: column;
     gap: 1rem;
 }
-form > div, form > label {
+form > div,
+form > label {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
