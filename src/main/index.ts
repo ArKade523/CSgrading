@@ -9,8 +9,8 @@ import path from 'path'
 function createWindow(): void {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        width: 1400,
-        height: 1000,
+        width: 1440,
+        height: 900,
         show: false,
         autoHideMenuBar: true,
         ...(process.platform === 'linux' ? { icon } : {}),
@@ -31,30 +31,34 @@ function createWindow(): void {
 
     // Handle the save-file request from the renderer process
     ipcMain.on('save-assignment', async (event, assignmentData) => {
-        const { filePath, canceled } = await dialog.showSaveDialog({
-            buttonLabel: 'Create Folder',
-            properties: ['createDirectory', 'showOverwriteConfirmation'],
-            defaultPath: path.join(app.getPath('desktop'), assignmentData.name) // Default to desktop
-        })
-
-        if (!canceled && filePath) {
-            const folderPath = path.dirname(filePath)
-            const yamlFilePath = path.join(folderPath, `${assignmentData.name}.yaml`)
-
-            if (!fs.existsSync(folderPath)) {
-                fs.mkdirSync(folderPath)
+        const { filePaths, canceled } = await dialog.showOpenDialog({
+            title: 'Save New Assignment',
+            defaultPath: path.join(app.getPath('documents'), assignmentData.name), // Default to documents
+            buttonLabel: 'Select Folder',
+            properties: ['openDirectory', 'createDirectory', 'promptToCreate'],
+            message: 'Select a folder to save the new assignment',
+        });
+    
+        if (!canceled && filePaths && filePaths[0]) {
+            const baseFolderPath = filePaths[0];
+            const newFolderPath = path.join(baseFolderPath, assignmentData.name);
+    
+            if (!fs.existsSync(newFolderPath)) {
+                fs.mkdirSync(newFolderPath, { recursive: true });
             }
-
-            const yamlData = yaml.dump(assignmentData)
+    
+            const yamlFilePath = path.join(newFolderPath, 'csgrader.yaml');
+    
+            const yamlData = yaml.dump(assignmentData);
             fs.writeFile(yamlFilePath, yamlData, 'utf8', (err) => {
                 if (err) {
-                    event.reply('save-status', 'error')
+                    event.reply('save-status', 'error');
                 } else {
-                    event.reply('save-status', 'success')
+                    event.reply('save-status', 'success');
                 }
-            })
+            });
         } else {
-            event.reply('save-status', 'cancelled')
+            event.reply('save-status', 'canceled');
         }
     })
 

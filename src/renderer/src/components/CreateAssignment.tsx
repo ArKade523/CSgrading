@@ -19,8 +19,9 @@ function CreateAssignment() {
         setAssignmentName('')
         setAssignmentDescription('')
         setAssignmentLanguage('')
+        
     }
-
+    
     useEffect(() => {
         const handleSaveStatus = (status: string) => {
             if (status === 'success') {
@@ -29,7 +30,7 @@ function CreateAssignment() {
             } else if (status === 'error') {
                 console.error('Error saving assignment.')
             } else {
-                console.log('Save cancelled.')
+                console.log('Save canceled.')
             }
         }
 
