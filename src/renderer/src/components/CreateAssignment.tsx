@@ -19,9 +19,8 @@ function CreateAssignment() {
         setAssignmentName('')
         setAssignmentDescription('')
         setAssignmentLanguage('')
-        
     }
-    
+
     useEffect(() => {
         const handleSaveStatus = (status: string) => {
             if (status === 'success') {

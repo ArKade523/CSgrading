@@ -16,6 +16,23 @@ const api = {
         ipcRenderer.on('save-status', handler)
 
         return () => ipcRenderer.removeListener('save-status', handler)
+    },
+    openAssignment: () => {
+        return new Promise((resolve) => {
+            ipcRenderer.send('open-assignment')
+            ipcRenderer.once(
+                'open-status',
+                (_, status: { status: string; data: AssignmentData }) => {
+                    resolve(status) // Resolve the promise with the save status
+                }
+            )
+        })
+    },
+    onOpenStatus: (callback) => {
+        const handler = (_, status) => callback(status)
+        ipcRenderer.on('open-status', handler)
+
+        return () => ipcRenderer.removeListener('open-status', handler)
     }
 }
 

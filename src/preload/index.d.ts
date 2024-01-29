@@ -6,6 +6,8 @@ declare global {
         api: {
             saveAssignment: (assignmentData: any) => Promise<string>
             onSaveStatus: (callback: (status: string) => void) => () => void
+            openAssignment: () => Promise<Assignment>
+            onOpenStatus: (callback: (status: string) => void) => () => void
         }
     }
 }

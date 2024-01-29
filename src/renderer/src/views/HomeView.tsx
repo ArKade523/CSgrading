@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import CreateAssignment from '@renderer/components/CreateAssignment'
+import OpenAssignment from '@renderer/components/OpenAssignment'
+import ImportAssignment from '@renderer/components/ImportAssignment'
 
 enum Dialogs {
     CreateNew = 'create-new',
@@ -26,8 +28,8 @@ function HomeView(): JSX.Element {
                     </button>
                 </div>
                 {selectedDialog === Dialogs.CreateNew && <CreateAssignment />}
-                {selectedDialog === Dialogs.OpenExisting && <div>Open Existing Assignment</div>}
-                {selectedDialog === Dialogs.ImportAssignment && <div>Import Assignment</div>}
+                {selectedDialog === Dialogs.OpenExisting && <OpenAssignment />}
+                {selectedDialog === Dialogs.ImportAssignment && <ImportAssignment />}
             </div>
         </section>
     )

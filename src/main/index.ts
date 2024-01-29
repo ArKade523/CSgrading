@@ -36,29 +36,90 @@ function createWindow(): void {
             defaultPath: path.join(app.getPath('documents'), assignmentData.name), // Default to documents
             buttonLabel: 'Select Folder',
             properties: ['openDirectory', 'createDirectory', 'promptToCreate'],
-            message: 'Select a folder to save the new assignment',
-        });
-    
+            message: 'Select a folder to save the new assignment'
+        })
+
         if (!canceled && filePaths && filePaths[0]) {
-            const baseFolderPath = filePaths[0];
-            const newFolderPath = path.join(baseFolderPath, assignmentData.name);
-    
+            const baseFolderPath = filePaths[0]
+            const newFolderPath = path.join(baseFolderPath, assignmentData.name)
+
             if (!fs.existsSync(newFolderPath)) {
-                fs.mkdirSync(newFolderPath, { recursive: true });
+                fs.mkdirSync(newFolderPath, { recursive: true })
             }
-    
-            const yamlFilePath = path.join(newFolderPath, 'csgrader.yaml');
-    
-            const yamlData = yaml.dump(assignmentData);
+
+            const yamlFilePath = path.join(newFolderPath, 'csgrader.yaml')
+
+            const yamlData = yaml.dump(assignmentData)
             fs.writeFile(yamlFilePath, yamlData, 'utf8', (err) => {
                 if (err) {
-                    event.reply('save-status', 'error');
+                    event.reply('save-status', 'error')
                 } else {
-                    event.reply('save-status', 'success');
+                    event.reply('save-status', 'success')
                 }
-            });
+            })
         } else {
-            event.reply('save-status', 'canceled');
+            event.reply('save-status', 'canceled')
+        }
+    })
+
+    ipcMain.on('open-assignment', async (event) => {
+        const { filePaths, canceled } = await dialog.showOpenDialog({
+            title: 'Open Assignment',
+            defaultPath: app.getPath('documents'), // Default to documents
+            buttonLabel: 'Open',
+            properties: ['openDirectory'],
+            message: 'Select an assignment to open'
+        })
+
+        if (!canceled && filePaths && filePaths[0]) {
+            const assignmentFolderPath = filePaths[0]
+            const yamlFilePath = path.join(assignmentFolderPath, 'csgrader.yaml')
+            const submissionsFolderPath = path.join(assignmentFolderPath, 'submissions')
+
+            if (fs.existsSync(yamlFilePath)) {
+                const yamlData = fs.readFileSync(yamlFilePath, 'utf8')
+                const assignmentData: AssignmentData = {
+                    directoryPath: assignmentFolderPath,
+                    csgraderConfig: yaml.load(yamlData),
+                    submissions: [],
+                    selectedSubmission: null
+                }
+
+                // Check if submissions folder exists
+                if (fs.existsSync(submissionsFolderPath)) {
+                    // Read files in the submissions folder
+                    const submissionFiles = fs.readdirSync(submissionsFolderPath)
+
+                    // Update the submissions array
+                    assignmentData.submissions = submissionFiles.map((fileName) => {
+                        const filePath = path.join(submissionsFolderPath, fileName)
+
+                        // Example file name: username_1234567890_submission_1.zip
+
+                        // Splitting the file name into parts
+                        const parts = fileName.split('_')
+                        // Assuming first part is username, second part is a numerical identifier
+                        const studentName = parts[0] // or format it as needed
+                        const submissionTime = parts[1] // or convert this to a readable format
+
+                        // The rest of the file name is the student-provided name
+                        const studentProvidedName = parts.slice(3).join('_').replace('.zip', '')
+
+                        return {
+                            studentName: studentName,
+                            submissionPath: filePath,
+                            submissionTime: submissionTime,
+                            submissionFiles: [studentProvidedName] // The student-provided file name
+                        }
+                    })
+                }
+
+                event.reply('open-status', { status: 'success', data: assignmentData })
+            } else {
+                event.reply('open-status', 'error')
+            }
+        } else {
+            event.reply('open-status', 'canceled')
         }
     })
 

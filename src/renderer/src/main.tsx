@@ -5,6 +5,8 @@ import App from './App'
 import { loader } from '@monaco-editor/react'
 import { BrowserRouter } from 'react-router-dom'
 import '@fortawesome/fontawesome-free/css/all.min.css'
+import { Provider } from 'react-redux'
+import store from './store'
 
 // Load Monaco Editor locally from assets/monaco-editor/min/vs
 loader.config({
@@ -14,7 +16,9 @@ loader.config({
 })
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>
+    <Provider store={store}>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </Provider>
 )
