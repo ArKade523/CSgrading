@@ -116,10 +116,10 @@ function createWindow(): void {
 
                 event.reply('open-status', { status: 'success', data: assignmentData })
             } else {
-                event.reply('open-status', 'error')
+                event.reply('open-status', { status: 'error', data: 'Invalid assignment folder' })
             }
         } else {
-            event.reply('open-status', 'canceled')
+            event.reply('open-status', { status: 'canceled', data: null })
         }
     })
 

@@ -10,24 +10,9 @@
     flex-direction: row;
 }
 
-#view-selector {
-    display: flex;
-    flex-direction: column;
-    background-color: var(--background-secondary);
-    align-items: center;
-    gap: 1.5rem;
-    padding: 10px;
-    height: 100%;
-}
-#view-selector i {
-    font-size: 1rem;
-    color: #86a5b1;
-}
-#view-selector i:hover {
-    color: var(--accent);
-}
-#view-selector span.active > a > i {
-    color: var(--accent);
+li.active > button {
+    background-color: var(--accent);
+    color: var(--background);
 }
 
 .container {
@@ -51,4 +36,56 @@
     border-radius: 5px;
     width: 50%;
     height: fit-content;
+}
+
+#editor-view > #options-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: .5rem;
+    margin: .5rem;
+}
+#editor-view > .container {
+    gap: .5rem;
+
+}
+
+#submissions-viewer {
+    border-radius: 5px;
+    width: 100%;
+    height: fit-content;
+}
+#submissions-viewer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#submissions-viewer ul > li {
+    width: 100%;
+}
+#submissions-viewer ul > li > button {
+    width: 100%;
+    border-radius: 0;
+    padding: 1rem;
+    text-align: left;
+}
+
+#view-selector {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-secondary);
+    align-items: center;
+    gap: 1.5rem;
+    padding: 10px;
+    height: 100%;
+}
+#view-selector i {
+    font-size: 1rem;
+    color: #86a5b1;
+}
+#view-selector i:hover {
+    color: var(--accent);
+}
+#view-selector span.active > a > i {
+    color: var(--accent);
 }

@@ -1,19 +1,23 @@
 import { useState, FormEvent, useEffect } from 'react'
 import { redirect } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setCSgraderConfig } from '@renderer/features/assignmentSlice'
 
 function CreateAssignment() {
     const [assignmentName, setAssignmentName] = useState<string>('')
     const [assignmentDescription, setAssignmentDescription] = useState<string>('')
     const [assignmentLanguage, setAssignmentLanguage] = useState<string>('')
+    const dispatch = useDispatch()
 
     const handleFormSubmit = async (event: FormEvent) => {
         event.preventDefault()
-        const assignmentData = {
-            name: assignmentName,
+        const assignmentData: CSgraderConfig = {
+            assignmentName: assignmentName,
             description: assignmentDescription,
             language: assignmentLanguage
         }
         await window.api.saveAssignment(assignmentData)
+        dispatch(setCSgraderConfig(assignmentData))
 
         // Clear the form
         setAssignmentName('')

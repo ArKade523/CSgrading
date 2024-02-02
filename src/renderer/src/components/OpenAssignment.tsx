@@ -6,7 +6,6 @@ import {
     setSubmissions,
     setSelectedSubmission
 } from '@renderer/features/assignmentSlice'
-import store from '@renderer/store'
 
 function OpenAssignment() {
     const dispatch = useDispatch()
@@ -15,27 +14,21 @@ function OpenAssignment() {
         e.preventDefault()
         const result = await window.api.openAssignment()
         if (result.status === 'success') {
-            console.log(result.data)
-            console.log('State Before: ')
-            console.log(store.getState().currentAssignment)
             dispatch(setDirectoryPath(result.data.directoryPath))
             dispatch(setCSgraderConfig(result.data.csgraderConfig))
             dispatch(setSubmissions(result.data.submissions))
             dispatch(setSelectedSubmission(result.data.submissions[0]))
-
-            console.log('State After: ')
-            console.log(store.getState().currentAssignment)
         }
     }
 
     useEffect(() => {
-        const handleOpenStatus = (status: string) => {
-            if (status === 'success') {
+        const handleOpenStatus = (status: {status: string; data: AssignmentData | null}) => {
+            if (status.status === 'success') {
                 console.log('Assignment opened successfully.')
-            } else if (status === 'error') {
+            } else if (status.status === 'error') {
                 console.error('Error opening assignment.')
             } else {
-                console.log('Open canceled.')
+                console.log('Open canceled with status: ', status)
             }
         }
 
