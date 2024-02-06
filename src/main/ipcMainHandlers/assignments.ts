@@ -84,18 +84,22 @@ const setupAssignmentsHandlers = () => {
 
                         if (fileName.endsWith('.zip') && fs.existsSync(filePath) && fs.lstatSync(filePath).isFile()) {
                             const outputFolderPath = path.join(assignmentFolderPath, 'unzipped_submissions', studentName + '_' + submissionTime + '_submission_' + studentProvidedName);
+                            
+                            // only try to unzip if the folder does not exist
+                            // TODO: Add a check to see if the folder does not contain all expected files
                             if (!fs.existsSync(outputFolderPath)) {
                                 fs.mkdirSync(outputFolderPath, { recursive: true });
+                                
+                                // extract zip file 
+                                try {
+                                    await extractZip(filePath, { dir: outputFolderPath });
+                                } catch (err) {
+                                    console.error('Error extracting zip file', err);
+                                    event.reply('open-status', { status: 'error', data: `Failed to extract ${fileName}` });
+                                    return;
+                                }
                             }
 
-                            // extract zip file 
-                            try {
-                                await extractZip(filePath, { dir: outputFolderPath });
-                            } catch (err) {
-                                console.error('Error extracting zip file', err);
-                                event.reply('open-status', { status: 'error', data: `Failed to extract ${fileName}` });
-                                return;
-                            }
                         }
 
                         assignmentData.submissions.push({
