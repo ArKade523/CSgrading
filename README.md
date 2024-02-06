@@ -18,6 +18,8 @@ This document outlines the requirements and development milestones for a desktop
 -   React
 -   Vite
 -   electron-vite
+-   Redux Toolkit
+-   Yaml
 
 ### Functionality
 
@@ -45,9 +47,9 @@ This document outlines the requirements and development milestones for a desktop
 
 ### Milestone 3: Docker Integration
 
--   [ ] Create Dockerfile for Django environment
+-   [X] Create Dockerfile for Python environment
 -   [ ] Implement Docker container management in Electron app
--   [ ] Test running Django projects in Docker
+-   [X] Test running Python projects in Docker
 
 ### Milestone 4: Canvas LMS API Integration
 
