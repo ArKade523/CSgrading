@@ -26,6 +26,7 @@
         "@monaco-editor/react": "^4.6.0",
         "@reduxjs/toolkit": "^2.1.0",
         "electron-updater": "^6.1.7",
+        "extract-zip": "^2.0.1",
         "js-yaml": "^4.1.0",
         "monaco-editor": "^0.45.0",
         "react-redux": "^9.1.0",
