@@ -4,23 +4,22 @@ import { promisify } from 'util'
 
 const execPromise = promisify(exec);
 
+const runCommand = async (command: string, description: string) => {
+    console.log(description);
+    try {
+        const { stdout, stderr } = await execPromise(command);
+        if (stdout) console.log(`stdout: ${stdout}`);
+        if (stderr) console.log(`stderr: ${stderr}`);
+    } catch (error: any) {
+        console.error(`Error during ${description}: ${error.message}`);
+        throw error; // Rethrow to break the execution flow
+    }
+};
+
 /* example: runDockerContainer('csgrader:python_3_12', 
             '/Users/kadeangell/Documents/csgradertest/submissions/allentyler_1632353_90498224_allen_tyler_assignment1.zip', 
-            'allen_tyler_assignment1');
-*/
-
+            'allen_tyler_assignment1'); */
 const runDockerContainer = async (imageName: string, submissionPath: string, submissionName: string) => {
-    const runCommand = async (command: string, description: string) => {
-        console.log(description);
-        try {
-            const { stdout, stderr } = await execPromise(command);
-            if (stdout) console.log(`stdout: ${stdout}`);
-            if (stderr) console.log(`stderr: ${stderr}`);
-        } catch (error: any) {
-            console.error(`Error during ${description}: ${error.message}`);
-            throw error; // Rethrow to break the execution flow
-        }
-    };
 
     try {
         // Run the docker container
@@ -55,19 +54,9 @@ const runDockerContainer = async (imageName: string, submissionPath: string, sub
 const setupRunSubmissionsHandlers = () => {
     ipcMain.on('run-submission', async (_, language: string, submission_path: string, submission_name: string) => {
         // check if docker is installed
-        const isDockerInstalled = exec('docker -v', (error, stdout, stderr) => {
-            if (error) {
-                console.error(`error: ${error.message}`);
-                return false;
-            }
-            if (stderr) {
-                console.error(`stderr: ${stderr}`);
-                return false;
-            }
-            console.log(`stdout: ${stdout}`);
-
-            return true;
-        });
+        const isDockerInstalled = runCommand('docker --version', 'Checking if Docker is installed')
+            .then(() => true)
+            .catch(() => false);
 
         if (!isDockerInstalled) {
             // TODO: send an error message to the renderer process
@@ -85,19 +74,9 @@ const setupRunSubmissionsHandlers = () => {
                 break;
         }
 
-        const dockerImageExists = exec(`docker image inspect ${imageName}`, (error, stdout, stderr) => {
-            if (error) {
-                console.error(`error: ${error.message}`);
-                return false;
-            }
-            if (stderr) {
-                console.error(`stderr: ${stderr}`);
-                return false;
-            }
-            console.log(`stdout: ${stdout}`);
-
-            return true;
-        });
+        const dockerImageExists = runCommand(`docker image inspect ${imageName}`, `Checking if Docker image ${imageName} exists`)
+            .then(() => true)
+            .catch(() => false);
 
         if (!dockerImageExists) {
             // TODO: send an error message to the renderer process
