@@ -47,9 +47,9 @@ This document outlines the requirements and development milestones for a desktop
 
 ### Milestone 3: Docker Integration
 
--   [X] Create Dockerfile for Python environment
+-   [x] Create Dockerfile for Python environment
 -   [ ] Implement Docker container management in Electron app
--   [X] Test running Python projects in Docker
+-   [x] Test running Python projects in Docker
 
 ### Milestone 4: Canvas LMS API Integration
 

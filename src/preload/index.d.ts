@@ -7,7 +7,9 @@ declare global {
             saveAssignment: (assignmentData: any) => Promise<string>
             onSaveStatus: (callback: (status: string) => void) => () => void
             openAssignment: () => Promise<Assignment>
-            onOpenStatus: (callback: (status: {status: string, data: AssignmentData | null}) => void) => () => void
+            onOpenStatus: (
+                callback: (status: { status: string; data: AssignmentData | null }) => void
+            ) => () => void
         }
     }
 }

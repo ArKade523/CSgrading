@@ -22,7 +22,7 @@ function OpenAssignment() {
     }
 
     useEffect(() => {
-        const handleOpenStatus = (status: {status: string; data: AssignmentData | null}) => {
+        const handleOpenStatus = (status: { status: string; data: AssignmentData | null }) => {
             if (status.status === 'success') {
                 console.log('Assignment opened successfully.')
             } else if (status.status === 'error') {

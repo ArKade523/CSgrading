@@ -42,12 +42,11 @@ li.active > button {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    gap: .5rem;
-    margin: .5rem;
+    gap: 0.5rem;
+    margin: 0.5rem;
 }
 #editor-view > .container {
-    gap: .5rem;
-
+    gap: 0.5rem;
 }
 
 #submissions-viewer {

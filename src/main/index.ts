@@ -50,10 +50,10 @@ app.whenReady().then(() => {
         optimizer.watchWindowShortcuts(window)
     })
 
-    createWindow();
+    createWindow()
 
     // Setup IPC handlers
-    setupAssignmentsHandlers();
+    setupAssignmentsHandlers()
 
     app.on('activate', function () {
         // On macOS it's common to re-create a window in the app when the

@@ -1,11 +1,9 @@
-
-
 function Rubric() {
-  return (
-    <div>
-      <h2>Rubric</h2>
-    </div>
-  );
+    return (
+        <div>
+            <h2>Rubric</h2>
+        </div>
+    )
 }
 
-export default Rubric;
+export default Rubric

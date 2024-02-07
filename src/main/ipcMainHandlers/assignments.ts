@@ -15,31 +15,34 @@ const setupAssignmentsHandlers = () => {
                 buttonLabel: 'Select Folder',
                 properties: ['openDirectory', 'createDirectory', 'promptToCreate'],
                 message: 'Select a folder to save the new assignment'
-            });
-    
-            if (!canceled && filePaths && filePaths[0]) {
-                const baseFolderPath = filePaths[0];
+            })
 
-                const newFolderPath = path.join(baseFolderPath, assignmentConfig.assignmentName);
-    
+            if (!canceled && filePaths && filePaths[0]) {
+                const baseFolderPath = filePaths[0]
+
+                const newFolderPath = path.join(baseFolderPath, assignmentConfig.assignmentName)
+
                 // Check and create the new folder path asynchronously
-                await fsp.mkdir(newFolderPath, { recursive: true });
-    
-                const yamlFilePath = path.join(newFolderPath, `${assignmentConfig.assignmentName}.csgrader`);
-                const yamlData = yaml.dump(assignmentConfig);
-    
+                await fsp.mkdir(newFolderPath, { recursive: true })
+
+                const yamlFilePath = path.join(
+                    newFolderPath,
+                    `${assignmentConfig.assignmentName}.csgrader`
+                )
+                const yamlData = yaml.dump(assignmentConfig)
+
                 // Write YAML data to the file
-                await fsp.writeFile(yamlFilePath, yamlData, 'utf8');
-                event.reply('save-status', 'success');
+                await fsp.writeFile(yamlFilePath, yamlData, 'utf8')
+                event.reply('save-status', 'success')
             } else {
-                event.reply('save-status', 'canceled');
+                event.reply('save-status', 'canceled')
             }
         } catch (err) {
-            console.error('Failed to save assignment:', err);
+            console.error('Failed to save assignment:', err)
             // Reply with error details for better debugging and user feedback
-            event.reply('save-status', { status: 'error', message: err });
+            event.reply('save-status', { status: 'error', message: err })
         }
-    });
+    })
 
     // Handle the open-assignment request from the renderer process
     ipcMain.on('open-assignment', async (event) => {
@@ -49,17 +52,17 @@ const setupAssignmentsHandlers = () => {
             buttonLabel: 'Open',
             properties: ['openFile'],
             filters: [
-                { name: 'csgrader Files', extensions: ['csgrader'] }, 
+                { name: 'csgrader Files', extensions: ['csgrader'] },
                 { name: 'All Files', extensions: ['*'] }
             ],
             message: 'Select the csgrader configuration file for the assignment'
-        }); 
+        })
 
         if (!canceled && filePaths && filePaths[0]) {
-            const assignmentFolderPath = path.dirname(filePaths[0]);
+            const assignmentFolderPath = path.dirname(filePaths[0])
             console.log('Selected assignment folder:', assignmentFolderPath)
-            const yamlFilePath = filePaths[0];
-            const submissionsFolderPath = path.join(assignmentFolderPath, 'submissions');
+            const yamlFilePath = filePaths[0]
+            const submissionsFolderPath = path.join(assignmentFolderPath, 'submissions')
 
             if (fs.existsSync(yamlFilePath)) {
                 const yamlData = fs.readFileSync(yamlFilePath, 'utf8')
@@ -76,30 +79,44 @@ const setupAssignmentsHandlers = () => {
                     const submissionFiles = fs.readdirSync(submissionsFolderPath)
 
                     for (const fileName of submissionFiles) {
-                        const filePath = path.join(submissionsFolderPath, fileName);
-                        const parts = fileName.split('_');
-                        const studentName = parts[0];
-                        const submissionTime = parts[1];
-                        const studentProvidedName = parts.slice(3).join('_').replace('.zip', '');
+                        const filePath = path.join(submissionsFolderPath, fileName)
+                        const parts = fileName.split('_')
+                        const studentName = parts[0]
+                        const submissionTime = parts[1]
+                        const studentProvidedName = parts.slice(3).join('_').replace('.zip', '')
 
-                        if (fileName.endsWith('.zip') && fs.existsSync(filePath) && fs.lstatSync(filePath).isFile()) {
-                            const outputFolderPath = path.join(assignmentFolderPath, 'unzipped_submissions', studentName + '_' + submissionTime + '_submission_' + studentProvidedName);
-                            
+                        if (
+                            fileName.endsWith('.zip') &&
+                            fs.existsSync(filePath) &&
+                            fs.lstatSync(filePath).isFile()
+                        ) {
+                            const outputFolderPath = path.join(
+                                assignmentFolderPath,
+                                'unzipped_submissions',
+                                studentName +
+                                    '_' +
+                                    submissionTime +
+                                    '_submission_' +
+                                    studentProvidedName
+                            )
+
                             // only try to unzip if the folder does not exist
                             // TODO: Add a check to see if the folder does not contain all expected files
                             if (!fs.existsSync(outputFolderPath)) {
-                                fs.mkdirSync(outputFolderPath, { recursive: true });
-                                
-                                // extract zip file 
+                                fs.mkdirSync(outputFolderPath, { recursive: true })
+
+                                // extract zip file
                                 try {
-                                    await extractZip(filePath, { dir: outputFolderPath });
+                                    await extractZip(filePath, { dir: outputFolderPath })
                                 } catch (err) {
-                                    console.error('Error extracting zip file', err);
-                                    event.reply('open-status', { status: 'error', data: `Failed to extract ${fileName}` });
-                                    return;
+                                    console.error('Error extracting zip file', err)
+                                    event.reply('open-status', {
+                                        status: 'error',
+                                        data: `Failed to extract ${fileName}`
+                                    })
+                                    return
                                 }
                             }
-
                         }
 
                         assignmentData.submissions.push({
@@ -107,9 +124,8 @@ const setupAssignmentsHandlers = () => {
                             submissionPath: filePath,
                             submissionTime: submissionTime,
                             submissionFiles: [studentProvidedName] // Update this as needed based on extraction result
-                        });
+                        })
                     }
-
                 }
 
                 event.reply('open-status', { status: 'success', data: assignmentData })
@@ -119,7 +135,7 @@ const setupAssignmentsHandlers = () => {
         } else {
             event.reply('open-status', { status: 'canceled', data: null })
         }
-    });
+    })
 }
 
-export default setupAssignmentsHandlers;
+export default setupAssignmentsHandlers

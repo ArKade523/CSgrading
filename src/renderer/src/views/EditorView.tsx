@@ -15,7 +15,6 @@ function EditorView(): JSX.Element {
                 <SubmissionsViewer />
                 <Rubric />
                 {/* <MonacoEditor /> */}
-
             </div>
         </section>
     )
