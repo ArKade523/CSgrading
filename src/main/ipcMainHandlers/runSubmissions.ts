@@ -16,9 +16,10 @@ const runCommand = async (command: string, description: string) => {
     }
 }
 
-/* example: runDockerContainer('csgrader:python_3_12', 
-            '/Users/kadeangell/Documents/csgradertest/submissions/allentyler_1632353_90498224_allen_tyler_assignment1.zip', 
-            'allen_tyler_assignment1'); */
+/* example: 
+    runDockerContainer('csgrader:python_3_12', 
+        '/Users/kadeangell/Documents/csgradertest/submissions/allentyler_1632353_90498224_allen_tyler_assignment1.zip', 
+        'allen_tyler_assignment1'); */
 const runDockerContainer = async (
     imageName: string,
     submissionPath: string,
@@ -34,7 +35,7 @@ const runDockerContainer = async (
 
         // Copy the submission to the docker container
         await runCommand(
-            `docker cp ${submissionPath} ${submissionName}:/submission/submission.zip`,
+            `docker cp "${submissionPath}" ${submissionName}:/submission/submission.zip`,
             `Copying submission to container: ${submissionName}`
         )
 
@@ -89,10 +90,10 @@ const setupRunSubmissionsHandlers = () => {
             let imageName = ''
             switch (language) {
                 case 'python':
-                    imageName = 'csgrader_python_3_12'
+                    imageName = 'csgrader:python_3_12'
                     break
                 default:
-                    imageName = 'csgrader_python_3_12'
+                    imageName = 'csgrader:python_3_12'
                     break
             }
 

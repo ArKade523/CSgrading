@@ -1,4 +1,5 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
+import { languages } from 'monaco-editor'
 
 declare global {
     interface Window {
@@ -10,6 +11,12 @@ declare global {
             onOpenStatus: (
                 callback: (status: { status: string; data: AssignmentData | null }) => void
             ) => () => void
+            runSubmission: (
+                language: string,
+                submissionPath: string,
+                submissionName: string
+            ) => Promise<string>
+            onRunStatus: (callback: (status: string) => void) => () => void
         }
     }
 }

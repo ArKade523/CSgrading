@@ -3,7 +3,7 @@ import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
 const api = {
-    saveAssignment: (data) => {
+    saveAssignment: (data: CSgraderConfig) => {
         return new Promise((resolve) => {
             ipcRenderer.send('save-assignment', data)
             ipcRenderer.once('save-status', (_, status) => {
@@ -11,8 +11,8 @@ const api = {
             })
         })
     },
-    onSaveStatus: (callback) => {
-        const handler = (_, status) => callback(status)
+    onSaveStatus: (callback: (arg0: string | { status: string; message: any }) => any) => {
+        const handler = (_, status: string | { status: string; message: any }) => callback(status)
         ipcRenderer.on('save-status', handler)
 
         return () => ipcRenderer.removeListener('save-status', handler)
@@ -28,11 +28,25 @@ const api = {
             )
         })
     },
-    onOpenStatus: (callback) => {
-        const handler = (_, status) => callback(status)
+    onOpenStatus: (callback: (arg0: any) => any) => {
+        const handler = (_, status: any) => callback(status)
         ipcRenderer.on('open-status', handler)
 
         return () => ipcRenderer.removeListener('open-status', handler)
+    },
+    runSubmission: (language: string, submissionPath: string, submissionName: string) => {
+        return new Promise((resolve) => {
+            ipcRenderer.send('run-submission', language, submissionPath, submissionName)
+            ipcRenderer.once('run-status', (_, status) => {
+                resolve(status) // Resolve the promise with the save status
+            })
+        })
+    },
+    onRunStatus: (callback: (arg0: string) => any) => {
+        const handler = (_, status: string) => callback(status)
+        ipcRenderer.on('run-status', handler)
+
+        return () => ipcRenderer.removeListener('run-status', handler)
     }
 }
 
