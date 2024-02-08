@@ -14,7 +14,7 @@ export default defineConfig({
         resolve: {
             alias: {
                 '@renderer': resolve('src/renderer/src'),
-                'monaco-editor': path.resolve(__dirname, './node_modules/monaco-editor')
+                'monaco-editor': path.resolve(__dirname, 'node_modules/monaco-editor')
             }
         },
         plugins: [react()]
