@@ -6,12 +6,15 @@ import NoMatchView from '@renderer/views/NoMatchView'
 import { Routes, Route } from 'react-router-dom'
 import ViewSelector from '@renderer/components/ViewSelector'
 import usePreferredTheme from '@renderer/hooks/usePreferredTheme'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function App(): JSX.Element {
     usePreferredTheme()
 
     return (
         <div id="app">
+            <ToastContainer autoClose={3000} />
             <ViewSelector />
             <Routes>
                 <Route path="/" element={<HomeView />} />

@@ -15,7 +15,11 @@
     box-sizing: border-box;
 }
 
-html, body, #root, #app, section {
+html,
+body,
+#root,
+#app,
+section {
     height: 100vh;
     width: 100%;
     margin: 0;

@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Rubric from '@renderer/components/Rubric'
 import SubmissionsSelector from '@renderer/components/SubmissionsSelector'
 import { useSelector } from 'react-redux'
 import { RootState } from '@renderer/store'
+import { toast } from 'react-toastify'
 
 function GraderView(): JSX.Element {
     const currentAssignment = useSelector((state: RootState) => state.currentAssignment)
@@ -12,12 +13,52 @@ function GraderView(): JSX.Element {
         if (!currentAssignment.selectedSubmission) return
         window.api.runSubmission(
             currentAssignment.csgraderConfig.language,
-            currentAssignment.selectedSubmission?.submissionPath,
-            currentAssignment.selectedSubmission?.studentName
+            currentAssignment.selectedSubmission.submissionPath,
+            currentAssignment.selectedSubmission.studentName
         )
     }
 
+    const handleStop = () => {
+        if (!currentAssignment.selectedSubmission) return
+        window.api.stopSubmission(currentAssignment.selectedSubmission.studentName)
+    }
+
+    useEffect(() => {
+        const unsubscribe = window.api.onStopStatus(
+            (status: { status: string; message: string }) => {
+                if (status.status === 'success') {
+                    toast.success(status.message)
+                    setTimeout(reloadIframe, 200)
+                } else {
+                    toast.error(status.message)
+                }
+            }
+        )
+
+        return () => {
+            unsubscribe()
+        }
+    }, [])
+
+    useEffect(() => {
+        const unsubscribe = window.api.onRunStatus(
+            (status: { status: string; message: string }) => {
+                if (status.status === 'success') {
+                    toast.success(status.message)
+                    setTimeout(reloadIframe, 200)
+                } else {
+                    toast.error(status.message)
+                }
+            }
+        )
+
+        return () => {
+            unsubscribe()
+        }
+    }, [])
+
     const reloadIframe = () => {
+        console.log('Reloading iframe')
         setIframeSrc('') // Clear src to trigger re-render
         setTimeout(() => setIframeSrc('http://localhost:8001'), 100) // Reset src
     }
@@ -35,7 +76,7 @@ function GraderView(): JSX.Element {
         <section id="editor-view">
             <h1>Editor</h1>
             <div id="options-bar">
-                <button>Save</button>
+                <button onClick={handleStop}>Stop</button>
                 <button onClick={handleRun}>Run</button>
                 <button>Submit</button>
                 <button onClick={reloadIframe}>Reload</button>

@@ -16,7 +16,13 @@ declare global {
                 submissionPath: string,
                 submissionName: string
             ) => Promise<string>
-            onRunStatus: (callback: (status: string) => void) => () => void
+            onRunStatus: (
+                callback: (status: { status: string; message: string }) => void
+            ) => () => void
+            stopSubmission: (submissionName: string) => Promise<string>
+            onStopStatus: (
+                callback: (status: { status: string; message: string }) => void
+            ) => () => void
         }
     }
 }

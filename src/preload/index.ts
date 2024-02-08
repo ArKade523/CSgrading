@@ -47,6 +47,20 @@ const api = {
         ipcRenderer.on('run-status', handler)
 
         return () => ipcRenderer.removeListener('run-status', handler)
+    },
+    stopSubmission: (submissionName: string) => {
+        return new Promise((resolve) => {
+            ipcRenderer.send('stop-submission', submissionName)
+            ipcRenderer.once('stop-status', (_, status) => {
+                resolve(status) // Resolve the promise with the save status
+            })
+        })
+    },
+    onStopStatus: (callback: (arg0: string) => any) => {
+        const handler = (_, status: string) => callback(status)
+        ipcRenderer.on('stop-status', handler)
+
+        return () => ipcRenderer.removeListener('stop-status', handler)
     }
 }
 

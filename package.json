@@ -30,7 +30,8 @@
         "js-yaml": "^4.1.0",
         "monaco-editor": "^0.45.0",
         "react-redux": "^9.1.0",
-        "react-router-dom": "^6.21.3"
+        "react-router-dom": "^6.21.3",
+        "react-toastify": "^10.0.4"
     },
     "devDependencies": {
         "@electron-toolkit/eslint-config-prettier": "^2.0.0",

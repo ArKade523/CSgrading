@@ -9,8 +9,8 @@ import {
 import { useNavigate } from 'react-router-dom'
 
 function OpenAssignment() {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const lookForAssignment = async (e: FormEvent) => {
         e.preventDefault()
@@ -43,9 +43,7 @@ function OpenAssignment() {
         }
     }, [])
 
-    return (
-        <button onClick={lookForAssignment}>Open Assignment</button>
-    )
+    return <button onClick={lookForAssignment}>Open Assignment</button>
 }
 
 export default OpenAssignment
