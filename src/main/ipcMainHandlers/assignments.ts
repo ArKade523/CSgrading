@@ -3,7 +3,6 @@ import yaml from 'js-yaml'
 import fs from 'fs'
 const fsp = fs.promises
 import path from 'path'
-import extractZip from 'extract-zip'
 
 const setupAssignmentsHandlers = () => {
     // Handle the save-file request from the renderer process
@@ -84,40 +83,6 @@ const setupAssignmentsHandlers = () => {
                         const studentName = parts[0]
                         const submissionTime = parts[1]
                         const studentProvidedName = parts.slice(3).join('_').replace('.zip', '')
-
-                        if (
-                            fileName.endsWith('.zip') &&
-                            fs.existsSync(filePath) &&
-                            fs.lstatSync(filePath).isFile()
-                        ) {
-                            const outputFolderPath = path.join(
-                                assignmentFolderPath,
-                                'unzipped_submissions',
-                                studentName +
-                                    '_' +
-                                    submissionTime +
-                                    '_submission_' +
-                                    studentProvidedName
-                            )
-
-                            // only try to unzip if the folder does not exist
-                            // TODO: Add a check to see if the folder does not contain all expected files
-                            if (!fs.existsSync(outputFolderPath)) {
-                                fs.mkdirSync(outputFolderPath, { recursive: true })
-
-                                // extract zip file
-                                try {
-                                    await extractZip(filePath, { dir: outputFolderPath })
-                                } catch (err) {
-                                    console.error('Error extracting zip file', err)
-                                    event.reply('open-status', {
-                                        status: 'error',
-                                        data: `Failed to extract ${fileName}`
-                                    })
-                                    return
-                                }
-                            }
-                        }
 
                         assignmentData.submissions.push({
                             studentName: studentName,
