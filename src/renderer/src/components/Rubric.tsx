@@ -1,6 +1,6 @@
 function Rubric() {
     return (
-        <div>
+        <div id="submission-rubric">
             <h2>Rubric</h2>
         </div>
     )

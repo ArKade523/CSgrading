@@ -11,6 +11,17 @@
     --background-secondary: #ffffff;
 }
 
+* {
+    box-sizing: border-box;
+}
+
+html, body, #root, #app, section {
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 html {
     height: 100%;
     width: 100%;
@@ -83,7 +94,5 @@ form button {
 }
 
 section {
-    height: 100%;
-    width: 100%;
     padding: 10px;
 }

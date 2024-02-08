@@ -18,7 +18,7 @@ li.active > button {
 .container {
     display: flex;
     flex-direction: row;
-    height: 100%;
+    height: 85%;
     width: 100%;
 }
 .container > div.home-buttons {
@@ -49,24 +49,38 @@ li.active > button {
     gap: 0.5rem;
 }
 
-#submissions-viewer {
+#submissions-selector {
     border-radius: 5px;
-    width: 100%;
+    width: 20%;
     height: fit-content;
 }
-#submissions-viewer ul {
+#submissions-selector ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-#submissions-viewer ul > li {
+#submissions-selector ul > li {
     width: 100%;
 }
-#submissions-viewer ul > li > button {
+#submissions-selector ul > li > button {
     width: 100%;
     border-radius: 0;
     padding: 1rem;
     text-align: left;
+}
+
+#submission-rubric {
+    width: 33%;
+}
+
+#submission-viewer {
+    width: calc(100% - 33% - 20%);
+    height: 100%;
+}
+#submission-viewer > iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
 }
 
 #view-selector {

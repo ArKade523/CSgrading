@@ -1,5 +1,5 @@
 import AboutView from '@renderer/views/AboutView'
-import EditorView from '@renderer/views/EditorView'
+import GraderView from '@renderer/views/GraderView'
 import SettingsView from '@renderer/views/SettingsView'
 import HomeView from '@renderer/views/HomeView'
 import NoMatchView from '@renderer/views/NoMatchView'
@@ -16,7 +16,7 @@ function App(): JSX.Element {
             <Routes>
                 <Route path="/" element={<HomeView />} />
                 <Route path="/home" element={<HomeView />} />
-                <Route path="/editor" element={<EditorView />} />
+                <Route path="/grader" element={<GraderView />} />
                 <Route path="/settings" element={<SettingsView />} />
                 <Route path="/about" element={<AboutView />} />
                 <Route path="*" element={<NoMatchView />} />

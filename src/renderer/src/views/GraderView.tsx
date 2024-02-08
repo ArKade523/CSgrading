@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import Rubric from '@renderer/components/Rubric'
-import SubmissionsViewer from '@renderer/components/SubmissionsViewer'
+import SubmissionsSelector from '@renderer/components/SubmissionsSelector'
 import { useSelector } from 'react-redux'
 import { RootState } from '@renderer/store'
 
-function EditorView(): JSX.Element {
+function GraderView(): JSX.Element {
     const currentAssignment = useSelector((state: RootState) => state.currentAssignment)
     const [iframeSrc, setIframeSrc] = useState('http://localhost:8001')
 
@@ -43,7 +43,7 @@ function EditorView(): JSX.Element {
                 <button onClick={goForward}>Forward</button>
             </div>
             <div className="container">
-                <SubmissionsViewer />
+                <SubmissionsSelector />
                 <Rubric />
                 <div id="submission-viewer">
                     <iframe src={iframeSrc} title="Submission Viewer"></iframe>
@@ -54,4 +54,4 @@ function EditorView(): JSX.Element {
     )
 }
 
-export default EditorView
+export default GraderView

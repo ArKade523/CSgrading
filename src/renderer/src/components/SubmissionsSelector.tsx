@@ -2,14 +2,14 @@ import { RootState } from '@renderer/store'
 import { useSelector, useDispatch } from 'react-redux'
 import { setSelectedSubmission } from '@renderer/features/assignmentSlice'
 
-function SubmissionsViewer() {
+function SubmissionsSelector() {
     const dispatch = useDispatch()
     const { submissions, selectedSubmission } = useSelector(
         (state: RootState) => state.currentAssignment
     )
 
     return (
-        <div id="submissions-viewer">
+        <div id="submissions-selector">
             <ul>
                 {submissions.map((submission) => (
                     <li
@@ -26,4 +26,4 @@ function SubmissionsViewer() {
     )
 }
 
-export default SubmissionsViewer
+export default SubmissionsSelector

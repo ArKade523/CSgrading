@@ -8,7 +8,7 @@ function ViewSelector(): JSX.Element {
     useEffect(() => {
         const views = [
             { id: 'home', link: '/' },
-            { id: 'editor', link: '/editor' },
+            { id: 'grader', link: '/grader' },
             { id: 'settings', link: '/settings' },
             { id: 'about', link: '/about' }
         ]
@@ -20,7 +20,7 @@ function ViewSelector(): JSX.Element {
 
     const views = [
         { id: 'home', icon: 'fa-home', title: 'Home', link: '/' },
-        { id: 'editor', icon: 'fa-pen', title: 'Editor', link: '/editor' },
+        { id: 'grader', icon: 'fa-pen', title: 'Grader', link: '/grader' },
         { id: 'settings', icon: 'fa-gear', title: 'Settings', link: '/settings' },
         { id: 'about', icon: 'fa-question', title: 'About', link: '/about' }
     ]

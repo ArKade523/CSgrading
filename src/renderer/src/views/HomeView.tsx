@@ -5,7 +5,6 @@ import ImportAssignment from '@renderer/components/ImportAssignment'
 
 enum Dialogs {
     CreateNew = 'create-new',
-    OpenExisting = 'open-existing',
     ImportAssignment = 'import-assignment'
 }
 
@@ -20,15 +19,12 @@ function HomeView(): JSX.Element {
                     <button onClick={() => setSelectedDialog(Dialogs.CreateNew)}>
                         Create New Assignment
                     </button>
-                    <button onClick={() => setSelectedDialog(Dialogs.OpenExisting)}>
-                        Open Existing Assignment
-                    </button>
+                    <OpenAssignment />
                     <button onClick={() => setSelectedDialog(Dialogs.ImportAssignment)}>
                         Import Assignment
                     </button>
                 </div>
                 {selectedDialog === Dialogs.CreateNew && <CreateAssignment />}
-                {selectedDialog === Dialogs.OpenExisting && <OpenAssignment />}
                 {selectedDialog === Dialogs.ImportAssignment && <ImportAssignment />}
             </div>
         </section>

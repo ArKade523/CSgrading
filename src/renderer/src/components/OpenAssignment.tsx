@@ -6,9 +6,11 @@ import {
     setSubmissions,
     setSelectedSubmission
 } from '@renderer/features/assignmentSlice'
+import { useNavigate } from 'react-router-dom'
 
 function OpenAssignment() {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const lookForAssignment = async (e: FormEvent) => {
         e.preventDefault()
@@ -18,6 +20,7 @@ function OpenAssignment() {
             dispatch(setCSgraderConfig(result.data.csgraderConfig))
             dispatch(setSubmissions(result.data.submissions))
             dispatch(setSelectedSubmission(result.data.submissions[0]))
+            navigate('/grader')
         }
     }
 
@@ -41,12 +44,7 @@ function OpenAssignment() {
     }, [])
 
     return (
-        <div className="dialog">
-            <h2>Open Existing Assignment</h2>
-            <form onSubmit={lookForAssignment}>
-                <button>Open Assignment</button>
-            </form>
-        </div>
+        <button onClick={lookForAssignment}>Open Assignment</button>
     )
 }
 
