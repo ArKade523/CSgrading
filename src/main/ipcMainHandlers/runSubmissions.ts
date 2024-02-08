@@ -54,14 +54,26 @@ const runDockerContainer = async (
         // If it were still in that directory and we tried to run it, even if we know the name of the directory,
         // We have to change the working directory of the docker exec command to that directory to make it run correctly.
         // We have to assume the student did not write the code so the server.py file can be run from anywhere on the OS
-        await runCommand(
-            `docker exec ${submissionName} bash -c 'for dir in $(find /submission/ -mindepth 1 -maxdepth 1 -type d); do mv "$dir"/* /submission/; rmdir "$dir"; done'`,
-            `Moving files in container: ${submissionName}`
-        )
+        // I implemented extra checks to make sure that if the student did not zip up a folder, the files are not moved
+        // If the student zipped up a folder with a folder like __MACOSX or .vscode, those folders are ignored
+        // Check for a .py file in /submission
+        const checkPyFilesCommand = `docker exec ${submissionName} bash -c 'find /submission -maxdepth 1 -name "*.py"'`;
+        const { stdout: pyFilesStdout } = await execPromise(checkPyFilesCommand);
+        if (!pyFilesStdout.trim()) {
+            // No .py files found in the root of /submission, safe to move files
+            await runCommand(
+                `docker exec ${submissionName} bash -c 'shopt -s dotglob; find /submission/ -mindepth 1 -maxdepth 1 -type d | grep -vE "(__MACOSX|\\.vscode)" | while IFS= read -r dir; do mv "$dir"/* /submission/; rmdir "$dir"; done'`,
+                `Moving files in container: ${submissionName}`
+            );
+        } else {
+            console.log('Python file found in the root of /submission, skipping the move command.');
+        }
 
         // Run the submission
+        // The submission is assumed to have a file called server.py
+        // I used `*erver.py` to account for any capitalization of the first letter
         await runCommand(
-            `docker exec ${submissionName} python3 /submission/server.py`,
+            `docker exec ${submissionName} bash -c 'python3 /submission/*erver.py'`,
             `Executing submission in container: ${submissionName}`
         )
     } catch (error: any) {
