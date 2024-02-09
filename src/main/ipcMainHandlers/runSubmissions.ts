@@ -4,14 +4,30 @@ import { promisify } from 'util'
 
 const execPromise = promisify(exec)
 
-const runCommand = async (command: string, description: string) => {
-    console.log(description)
+const logMessage = (event: Electron.IpcMainEvent, message: string) => {
+    console.log(message)
+    event.reply('run-status', {
+        status: 'console-message',
+        message
+    })
+}
+
+const logError = (event: Electron.IpcMainEvent, message: string) => {
+    console.error(message)
+    event.reply('run-status', {
+        status: 'console-error',
+        message
+    })
+}
+
+const runCommand = async (event: Electron.IpcMainEvent, command: string, description: string) => {
+    logMessage(event, `Running command: ${description}`)
     try {
         const { stdout, stderr } = await execPromise(command)
-        if (stdout) console.log(`stdout: ${stdout}`)
-        if (stderr) console.log(`stderr: ${stderr}`)
+        if (stdout) logMessage(event, stdout)
+        if (stderr) logError(event, stderr)
     } catch (error: any) {
-        console.error(`Error during ${description}: ${error.message}`)
+        logError(event, `Error running command: ${description}`)
         throw error // Rethrow to break the execution flow
     }
 }
@@ -21,6 +37,7 @@ const runCommand = async (command: string, description: string) => {
         '/Users/kadeangell/Documents/csgradertest/submissions/allentyler_1632353_90498224_allen_tyler_assignment1.zip', 
         'allen_tyler_assignment1'); */
 const runDockerContainer = async (
+    event: Electron.IpcMainEvent,
     imageName: string,
     submissionPath: string,
     submissionName: string
@@ -29,18 +46,21 @@ const runDockerContainer = async (
         // Run the docker container
         // Run in detached mode so that the next process can run
         await runCommand(
+            event,
             `docker run -p 8001:80 --rm -d --name ${submissionName} ${imageName}`,
             `Running Docker container: ${submissionName}`
         )
 
         // Copy the submission to the docker container
         await runCommand(
+            event,
             `docker cp "${submissionPath}" ${submissionName}:/submission/submission.zip`,
             `Copying submission to container: ${submissionName}`
         )
 
         // Unzip the submission
         await runCommand(
+            event,
             `docker exec ${submissionName} unzip -o /submission/submission.zip -d /submission/`,
             `Unzipping submission in container: ${submissionName}`
         )
@@ -62,11 +82,15 @@ const runDockerContainer = async (
         if (!pyFilesStdout.trim()) {
             // No .py files found in the root of /submission, safe to move files
             await runCommand(
+                event,
                 `docker exec ${submissionName} bash -c 'shopt -s dotglob; find /submission/ -mindepth 1 -maxdepth 1 -type d | grep -vE "(__MACOSX|\\.vscode)" | while IFS= read -r dir; do mv "$dir"/* /submission/; rmdir "$dir"; done'`,
                 `Moving files in container: ${submissionName}`
             )
         } else {
-            console.log('Python file found in the root of /submission, skipping the move command.')
+            logMessage(
+                event,
+                'Python file found in the root of /submission, skipping the move command.'
+            )
         }
 
         // Run the submission
@@ -75,11 +99,12 @@ const runDockerContainer = async (
         // This is a very naive way to run the submission
         // Running the command detached so that the next process can run
         await runCommand(
+            event,
             `docker exec -d ${submissionName} bash -c 'python3 /submission/*erver.py'`,
             `Executing submission in container: ${submissionName}`
         )
     } catch (error: any) {
-        console.error(`Execution halted due to an error: ${error.message}`)
+        logError(event, `Execution halted due to an error: ${error.message}`)
     }
 }
 
@@ -94,6 +119,7 @@ const setupRunSubmissionsHandlers = () => {
         ) => {
             // check if docker is installed
             const isDockerInstalled = runCommand(
+                event,
                 'docker --version',
                 'Checking if Docker is installed'
             )
@@ -102,7 +128,7 @@ const setupRunSubmissionsHandlers = () => {
 
             if (!isDockerInstalled) {
                 // TODO: send an error message to the renderer process
-                event.sender.send('run-status', {
+                event.reply('run-status', {
                     status: 'error',
                     message: 'Docker is not installed'
                 })
@@ -121,6 +147,7 @@ const setupRunSubmissionsHandlers = () => {
             }
 
             const dockerImageExists = runCommand(
+                event,
                 `docker image inspect ${imageName}`,
                 `Checking if Docker image ${imageName} exists`
             )
@@ -129,16 +156,16 @@ const setupRunSubmissionsHandlers = () => {
 
             if (!dockerImageExists) {
                 // TODO: send an error message to the renderer process
-                event.sender.send('run-status', {
+                event.reply('run-status', {
                     status: 'error',
                     message: `Docker image ${imageName} does not exist`
                 })
                 return
             }
 
-            runDockerContainer(imageName, submission_path, submission_name).then(() => {
+            runDockerContainer(event, imageName, submission_path, submission_name).then(() => {
                 // If runDockerContainer succeeds, notify the renderer process
-                event.sender.send('run-status', {
+                event.reply('run-status', {
                     status: 'success',
                     message: `Ran Docker container: ${submission_name}`
                 })
@@ -150,16 +177,17 @@ const setupRunSubmissionsHandlers = () => {
         // Stop the docker container
         try {
             runCommand(
+                event,
                 `docker stop ${submission_name}`,
                 `Stopping Docker container: ${submission_name}`
             ).then(() => {
-                event.sender.send('stop-status', {
+                event.reply('stop-status', {
                     status: 'success',
                     message: `Stopped Docker container: ${submission_name}`
                 })
             })
         } catch (error: any) {
-            event.sender.send('stop-status', {
+            event.reply('stop-status', {
                 status: 'error',
                 message: `Error stopping Docker container: ${submission_name}`
             })

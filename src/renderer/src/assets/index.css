@@ -99,4 +99,5 @@ form button {
 
 section {
     padding: 10px;
+    width: calc(100% - 25px - 1rem);
 }

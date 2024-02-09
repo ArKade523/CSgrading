@@ -38,14 +38,14 @@ li.active > button {
     height: fit-content;
 }
 
-#editor-view > #options-bar {
+#grader-view > #options-bar {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     gap: 0.5rem;
     margin: 0.5rem;
 }
-#editor-view > .container {
+#grader-view > .container {
     gap: 0.5rem;
 }
 
@@ -81,8 +81,17 @@ li.active > button {
 }
 #submission-viewer > iframe {
     width: 100%;
-    height: 100%;
+    height: 70%;
     border: none;
+}
+#submission-viewer > #console-output {
+    width: 100%;
+    height: 25%;
+    background-color: var(--background-secondary);
+    font: 1rem monospace;
+    padding: 1rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 #view-selector {

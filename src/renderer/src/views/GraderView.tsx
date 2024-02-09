@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 function GraderView(): JSX.Element {
     const currentAssignment = useSelector((state: RootState) => state.currentAssignment)
     const [iframeSrc, setIframeSrc] = useState('http://localhost:8001')
+    const [consoleOutput, setConsoleOutput] = useState<{ message: string; type: string }[]>([])
 
     const handleRun = () => {
         if (!currentAssignment.selectedSubmission) return
@@ -23,13 +24,21 @@ function GraderView(): JSX.Element {
         window.api.stopSubmission(currentAssignment.selectedSubmission.studentName)
     }
 
+    // scroll to bottom of console output
+    useEffect(() => {
+        const consoleOutput = document.getElementById('console-output')
+        if (consoleOutput) {
+            consoleOutput.scrollTop = consoleOutput.scrollHeight
+        }
+    }, [consoleOutput])
+
     useEffect(() => {
         const unsubscribe = window.api.onStopStatus(
             (status: { status: string; message: string }) => {
                 if (status.status === 'success') {
                     toast.success(status.message)
                     setTimeout(reloadIframe, 200)
-                } else {
+                } else if (status.status === 'error') {
                     toast.error(status.message)
                 }
             }
@@ -46,8 +55,18 @@ function GraderView(): JSX.Element {
                 if (status.status === 'success') {
                     toast.success(status.message)
                     setTimeout(reloadIframe, 200)
-                } else {
+                } else if (status.status === 'error') {
                     toast.error(status.message)
+                } else if (status.status === 'console-message') {
+                    setConsoleOutput((currentConsoleOutput) => [
+                        ...currentConsoleOutput,
+                        { message: status.message, type: 'message' }
+                    ])
+                } else if (status.status === 'console-error') {
+                    setConsoleOutput((currentConsoleOutput) => [
+                        ...currentConsoleOutput,
+                        { message: status.message, type: 'error' }
+                    ])
                 }
             }
         )
@@ -73,21 +92,28 @@ function GraderView(): JSX.Element {
     }
 
     return (
-        <section id="editor-view">
-            <h1>Editor</h1>
+        <section id="grader-view">
+            <h1>Grader</h1>
             <div id="options-bar">
                 <button onClick={handleStop}>Stop</button>
                 <button onClick={handleRun}>Run</button>
                 <button>Submit</button>
-                <button onClick={reloadIframe}>Reload</button>
-                <button onClick={goBack}>Back</button>
-                <button onClick={goForward}>Forward</button>
             </div>
             <div className="container">
                 <SubmissionsSelector />
                 <Rubric />
                 <div id="submission-viewer">
+                    <button onClick={reloadIframe}>Reload</button>
+                    <button onClick={goBack}>Back</button>
+                    <button onClick={goForward}>Forward</button>
                     <iframe src={iframeSrc} title="Submission Viewer"></iframe>
+                    <div id="console-output">
+                        {consoleOutput.map((line, i) => (
+                            <p key={i} className={line.type}>
+                                {line.message}
+                            </p>
+                        ))}
+                    </div>
                 </div>
                 {/* <MonacoEditor /> */}
             </div>
