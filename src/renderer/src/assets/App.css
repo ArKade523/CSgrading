@@ -93,6 +93,9 @@ li.active > button {
     overflow-y: scroll;
     overflow-x: hidden;
 }
+#submission-viewer > #console-output p.error {
+    color: red;
+}
 
 #view-selector {
     display: flex;
