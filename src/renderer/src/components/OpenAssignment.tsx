@@ -5,7 +5,7 @@ import {
     setCSgraderConfig,
     setSubmissions,
     setSelectedSubmission
-} from '@renderer/features/assignmentSlice'
+} from '@renderer/slices/assignmentSlice'
 import { useNavigate } from 'react-router-dom'
 
 function OpenAssignment() {

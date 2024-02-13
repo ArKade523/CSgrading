@@ -1,7 +1,7 @@
 import { useState, FormEvent, useEffect } from 'react'
 import { redirect } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setCSgraderConfig } from '@renderer/features/assignmentSlice'
+import { setCSgraderConfig } from '@renderer/slices/assignmentSlice'
 
 function CreateAssignment() {
     const [assignmentName, setAssignmentName] = useState<string>('')

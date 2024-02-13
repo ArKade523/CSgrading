@@ -1,6 +1,6 @@
 import { RootState } from '@renderer/store'
 import { useSelector, useDispatch } from 'react-redux'
-import { setSelectedSubmission } from '@renderer/features/assignmentSlice'
+import { setSelectedSubmission } from '@renderer/slices/assignmentSlice'
 
 function SubmissionsSelector() {
     const dispatch = useDispatch()
