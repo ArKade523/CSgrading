@@ -110,7 +110,7 @@ function GraderView(): JSX.Element {
                     <iframe src={iframeSrc} title="Submission Viewer"></iframe>
                     <div id="console-output">
                         {consoleOutput.map((line, i) => (
-                            <p key={SHA256(line.message + i)} className={line.type}>
+                            <p key={SHA256(line.message + i)[0]} className={line.type}>
                                 {line.message}
                             </p>
                         ))}
