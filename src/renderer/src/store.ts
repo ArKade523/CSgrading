@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import assignmentReducer from './features/assignmentSlice'
+import canvasApiKeyReducer from './features/canvasApiKeySlice'
 
 const store = configureStore({
     reducer: {
-        currentAssignment: assignmentReducer
+        currentAssignment: assignmentReducer,
+        canvasApiKey: canvasApiKeyReducer
     }
 })
 

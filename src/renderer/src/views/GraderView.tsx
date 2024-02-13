@@ -4,6 +4,7 @@ import SubmissionsSelector from '@renderer/components/SubmissionsSelector'
 import { useSelector } from 'react-redux'
 import { RootState } from '@renderer/store'
 import { toast } from 'react-toastify'
+import SHA256 from 'crypto-js/sha256'
 
 function GraderView(): JSX.Element {
     const currentAssignment = useSelector((state: RootState) => state.currentAssignment)
@@ -109,7 +110,7 @@ function GraderView(): JSX.Element {
                     <iframe src={iframeSrc} title="Submission Viewer"></iframe>
                     <div id="console-output">
                         {consoleOutput.map((line, i) => (
-                            <p key={i} className={line.type}>
+                            <p key={SHA256(line.message + i)} className={line.type}>
                                 {line.message}
                             </p>
                         ))}

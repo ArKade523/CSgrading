@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { RootState } from '@renderer/store'
 
 const initialState: AssignmentData = {
     directoryPath: '',
@@ -38,6 +39,6 @@ const assignmentSlice = createSlice({
 export const { setDirectoryPath, setCSgraderConfig, setSubmissions, setSelectedSubmission } =
     assignmentSlice.actions
 
-export const selectAssignment = (state) => state.assignment
+export const selectAssignment = (state: RootState) => state.currentAssignment
 
 export default assignmentSlice.reducer
